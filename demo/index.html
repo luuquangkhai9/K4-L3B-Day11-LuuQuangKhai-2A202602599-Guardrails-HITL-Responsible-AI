@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VinBank Guardrails Lab — Demo</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><span class="brand-mark">V<span>.</span></span><div><strong>VinBank</strong><small>SECURITY LAB / DAY 11</small></div></div>
+      <div class="side-label">WORKSPACE</div>
+      <nav aria-label="Điều hướng">
+        <button class="nav active" data-view="overview"><span>◫</span> Tổng quan</button>
+        <button class="nav" data-view="playground"><span>⌘</span> Blue playground</button>
+        <button class="nav" data-view="attacks"><span>◎</span> Red team</button>
+        <button class="nav" data-view="audit"><span>▤</span> Báo cáo</button>
+      </nav>
+      <div class="side-bottom"><div class="status-dot"></div><div><strong>Local demo</strong><small>Artifact được đọc từ outputs/</small></div></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar"><div class="breadcrumb">VINBANK <span>/</span> <b id="crumb">TỔNG QUAN</b></div><div class="top-meta"><span class="live-indicator">● HỆ THỐNG SẴN SÀNG</span><span>GUARDRAILS · HITL · RESPONSIBLE AI</span></div></header>
+
+      <section class="view active" id="view-overview">
+        <div class="hero"><div class="hero-copy"><div class="eyebrow">SECURITY OPERATIONS · LAB DEMO</div><h1>Phòng thủ có thể<br><em>kiểm chứng.</em></h1><p>Theo dõi cách Blue chặn prompt injection, che dữ liệu nhạy cảm và giới hạn request. Đối chiếu kết quả với Red team trong cùng một không gian.</p><button class="primary" data-go="playground">Thử Blue playground <span>↗</span></button></div><div class="hero-art" aria-hidden="true"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="shield"><span>V</span><small>SECURED</small></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div></div></div>
+        <div class="section-head"><div><span class="overline">LIVE SNAPSHOT</span><h2>Kết quả kiểm thử</h2></div><span class="muted">Nguồn: outputs/results.json · attack_results.json</span></div>
+        <div class="stats" id="stats"></div>
+        <div class="overview-grid"><div class="panel"><div class="panel-head"><div><span class="overline">DEFENSE IN DEPTH</span><h3>Luồng bảo vệ Blue</h3></div><span class="pill green">3 LỚP CHÍNH</span></div><div class="pipeline"><div class="pipe-step"><div class="pipe-icon">01</div><div><strong>Rate limiter</strong><p>Giới hạn request theo từng người dùng trong cửa sổ thời gian.</p></div><span class="pipe-check">✓</span></div><div class="pipe-step"><div class="pipe-icon">02</div><div><strong>Input guardrail</strong><p>Nhận diện injection và câu hỏi ngoài phạm vi ngân hàng.</p></div><span class="pipe-check">✓</span></div><div class="pipe-step"><div class="pipe-icon">03</div><div><strong>Output guardrail</strong><p>Che PII, secret và thông tin nội bộ trước khi trả lời.</p></div><span class="pipe-check">✓</span></div><div class="pipe-step"><div class="pipe-icon">04</div><div><strong>Audit · egress</strong><p>Ghi dấu quyết định và kiểm soát đích gửi dữ liệu.</p></div><span class="pipe-check">✓</span></div></div></div><div class="panel panel-dark"><div class="panel-head"><div><span class="overline">RED TEAM</span><h3>So sánh hai mục tiêu</h3></div></div><div class="versus"><div><span class="target-label">RED / DEFAULT</span><strong id="red-leaks">—</strong><small>prompt làm lộ secret demo</small></div><div class="vs-line">VS</div><div><span class="target-label">RED ADVANCE</span><strong id="advance-blocks">—</strong><small>prompt bị chặn</small></div></div><p class="dark-note">Secret demo được che trong giao diện. File kết quả gốc vẫn nằm trong outputs/ để grader replay.</p><button class="text-link" data-go="attacks">Xem từng kỹ thuật <span>→</span></button></div></div>
+      </section>
+
+      <section class="view" id="view-playground"><div class="page-intro"><div class="eyebrow">INTERACTIVE / BLUE TEAM</div><h1>Thử lớp bảo vệ <em>Blue.</em></h1><p>Nhập một câu hỏi ngân hàng hoặc prompt tấn công. “Kiểm tra guardrail” chạy rule tại máy; “Gửi Blue thật” gọi OpenRouter nếu input được phép.</p></div><div class="play-grid"><div class="panel"><div class="panel-head"><h3>Prompt của bạn</h3><span class="pill">INPUT</span></div><div class="sample-row"><button class="chip" data-sample="safe">Câu ngân hàng</button><button class="chip" data-sample="injection">Prompt injection</button><button class="chip" data-sample="offtopic">Ngoài chủ đề</button></div><label for="prompt">Nội dung gửi tới Blue</label><textarea id="prompt" rows="7" maxlength="4000" placeholder="Ví dụ: How can I transfer money between accounts?"></textarea><div class="form-footer"><span id="char-count">0 / 4000</span><div class="button-row"><button class="secondary" id="check-btn">Kiểm tra guardrail</button><button class="primary" id="live-btn">Gửi Blue thật ↗</button></div></div><p class="form-hint">Chế độ live có thể dùng quota OpenRouter. API key chỉ được đọc ở máy chạy server.</p></div><div class="panel result-panel"><div class="panel-head"><h3>Kết quả xử lý</h3><span class="pill" id="result-badge">CHỜ INPUT</span></div><div id="play-result" class="empty-state"><div class="empty-icon">⌘</div><strong>Sẵn sàng kiểm tra</strong><p>Chọn prompt mẫu hoặc nhập nội dung để xem lớp bảo vệ nào xử lý request.</p></div></div></div></section>
+
+      <section class="view" id="view-attacks"><div class="page-intro"><div class="eyebrow">ADVERSARIAL TESTING / CP4</div><h1>Red team <em>evidence.</em></h1><p>Năm kỹ thuật được chạy trên Red và Red Advance. Chọn một hàng để xem prompt, lớp xử lý và phần phản hồi đã che secret demo.</p></div><div class="attack-summary" id="attack-summary"></div><div class="panel attack-panel"><div class="panel-head"><div><span class="overline">ATTACK MATRIX</span><h3>Đối chiếu từng kỹ thuật</h3></div><div class="segmented"><button class="active" data-target="red">Red</button><button data-target="advance">Red Advance</button></div></div><div class="table-wrap"><table><thead><tr><th>#</th><th>Kỹ thuật</th><th>Kết quả</th><th>Lớp xử lý</th><th></th></tr></thead><tbody id="attack-table"></tbody></table></div></div><div class="panel detail-panel" id="attack-detail"><div class="empty-state"><div class="empty-icon">◎</div><strong>Chọn một kỹ thuật</strong><p>Chi tiết prompt và phản hồi sẽ xuất hiện ở đây.</p></div></div></section>
+
+      <section class="view" id="view-audit"><div class="page-intro"><div class="eyebrow">SUBMISSION CHECK / CP5</div><h1>Báo cáo <em>lab.</em></h1><p>Trạng thái đóng gói và kiểm thử được lấy trực tiếp từ báo cáo tự sinh. Đây là bằng chứng cục bộ, điểm thưởng vẫn do grader replay quyết định.</p></div><div class="audit-grid" id="audit-grid"></div><div class="panel"><div class="panel-head"><div><span class="overline">CHECKPOINTS</span><h3>Artifact cần nộp</h3></div></div><div class="file-list"><div><span>01</span><strong>outputs/results.json</strong><small>Blue / pipeline</small><b id="file-results">—</b></div><div><span>02</span><strong>outputs/attack_results.json</strong><small>Red / Red Advance</small><b id="file-attacks">—</b></div><div><span>03</span><strong>outputs/grade_report.json</strong><small>Auto grade</small><b id="file-grade">—</b></div></div></div></section>
+
+      <footer>VINBANK SECURITY LAB <span>·</span> DEMO LOCAL <span>·</span> DỮ LIỆU SECRET TRONG GIAO DIỆN ĐƯỢC CHE</footer>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

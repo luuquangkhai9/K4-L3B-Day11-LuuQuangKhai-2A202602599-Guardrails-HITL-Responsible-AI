@@ -134,3 +134,15 @@ pip install -r requirements.txt
 Rồi mở [`CHECKPOINTS.md`](CHECKPOINTS.md) và làm lần lượt Checkpoint 1 → 5.
 
 Nộp theo [`SUBMISSION.md`](SUBMISSION.md) · Quy định: [`RULES.md`](RULES.md).
+
+---
+
+## Giao diện demo local
+
+Sau khi hoàn thành CP3–CP5 và đã có file trong `outputs/`, chạy từ gốc repo:
+
+```powershell
+.\.venv\Scripts\python.exe scripts/demo_ui.py
+```
+
+Mở `http://127.0.0.1:8765` trong trình duyệt. Giao diện có tổng quan Blue, bảng đối chiếu Red/Red Advance, trạng thái tự chấm và playground thử prompt. Nút **Kiểm tra guardrail** chạy rule tại máy; nút **Gửi Blue thật** gọi OpenRouter và có thể dùng quota API. Server chỉ lắng nghe `127.0.0.1`, không phục vụ `.env` hoặc file secret; phần xem trước trong giao diện che secret demo. Dừng server bằng `Ctrl+C`.
